@@ -4,7 +4,7 @@ Python version 3.8
 ![Platform Pycharm](https://img.shields.io/badge/Platform-Pycharm-brightgreen)  
   
 ex_utils.py functions:  
-   imReadAndConvert: Simple function that read image, and normalize the image data to float.  
+   imReadAndConvert: Simple function that get the filename and representation - 1 for Gray and 2 for RGB, read image with OpenCv, and normalize the image data to float.  
    transformRGB2YIQ: Transform a image to YIQ image, with multiplication matrices.  
    transformYIQ2RGB: Transforma image back from YIQ to RGB.  
    hsitogramEqualize: Equalizes image, use Histogram and CumSum.  
