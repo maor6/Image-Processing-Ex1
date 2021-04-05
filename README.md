@@ -1,8 +1,7 @@
-# Image-Processing-Ex1
-Exercise 1 in the course Image Processing with python
-Python version 3.8
-Platform Pycharm
-![Platform Pycharm](https://img.shields.io/badge/Platform-Pycharm-brightgreen) 
+# Image-Processing-Ex1  
+Exercise 1 in the course Image Processing with python  
+Python version 3.8  
+![Platform Pycharm](https://img.shields.io/badge/Platform-Pycharm-brightgreen)  
   
 ex_utils.py functions:  
    imReadAndConvert: Simple function that read image, and normalize the image data to float.  
