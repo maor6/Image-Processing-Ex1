@@ -89,7 +89,7 @@ def transformYIQ2RGB(imgYIQ: np.ndarray) -> np.ndarray:
     :param imgYIQ: An Image in YIQ
     :return: A RGB in image color space
     """
-    # normalize the image to float and then multiply with the reverse YIQ kernel matrix
+    # multiply with the Reverse YIQ kernel matrix
     # convert to shape we can multiply and then back to normal shape
     shapeToMul = (-1, 3)
     realShap = imgYIQ.shape
@@ -116,22 +116,14 @@ def hsitogramEqualize(imgOrig: np.ndarray) -> (np.ndarray, np.ndarray, np.ndarra
     flatImg = image.flatten()
     histOrg, bins = np.histogram(flatImg, bins=256, range=[0, 255])
     cumSumOrg = histOrg.cumsum()
-    LUP = numToNorm * (cumSumOrg / cumSumOrg.max())
-    imEq = LUP[flatImg].reshape(realShape[0], realShape[1])  # get the new image from the look up table
+    LUT = numToNorm * (cumSumOrg / cumSumOrg.max())
+    imEq = LUT[flatImg].reshape(realShape[0], realShape[1])  # get the new image from the look up table
     histEQ, new_bins = np.histogram(imEq, bins=256, range=[0, 255])
     if len(realShape) == RGBSize:  # transform back to RGB and get all the channels YIQ
         imEq = imEq / numToNorm
         YIQImage[:, :, 0] = imEq
         imEq = transformYIQ2RGB(YIQImage)
         imEq = imEq.astype('float64')
-
-    # plt.plot(histOrg, color='r')
-    # plt.plot(cumSumOrg, color='b')
-    # plt.xlim([-10, 260])
-    # plt.ylim([-10, 10000])
-    # plt.plot(histEQ, color='r')
-    # plt.imshow(imEq)
-    # plt.show()
 
     return imEq, histOrg, histEQ
 
@@ -168,9 +160,9 @@ def quantizeImage(imOrig: np.ndarray, nQuant: int, nIter: int) -> (List[np.ndarr
         err = 0
         for k in range(len(z) - 1):
             for j in range(z[k], z[k + 1]):
-                err += ((q[k] - j) ** 2) * hisOrg[j]
+                err += ((q[k] - j) ** 2) * hisOrg[j]  # over on z and calculate the error
 
-        error.append(np.min(err) / np.size(Y))  # save al the errors
+        error.append(np.min(err) / np.size(Y))  # save all the errors
         LUT = []
         for m in range(len(z) - 1):
             for x in range(z[m], z[m + 1]):
